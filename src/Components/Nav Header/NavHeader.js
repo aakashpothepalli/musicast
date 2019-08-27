@@ -4,7 +4,7 @@ class NavHeader extends React.Component{
 
     render() {
       return (
-        <h2 style={{color: 'white',textAlign:'center'}}>Musicast</h2>
+        <h2 style={{textAlign:'center'}}>Musicast</h2>
       )
     };
     
