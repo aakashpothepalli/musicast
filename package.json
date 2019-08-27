@@ -2,7 +2,7 @@
   "name": "musicast",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://saiaakash.github.io/musicast",
+  "homepage": "https://musicast.ml",
   "dependencies": {
     "gh-pages": "^2.1.1",
     "react": "^16.9.0",
