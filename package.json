@@ -2,8 +2,9 @@
   "name": "musicast",
   "version": "0.1.0",
   "private": true,
-  "homepage":"https://saiaakash.github.io/musicast",
+  "homepage": "https://saiaakash.github.io/musicast",
   "dependencies": {
+    "gh-pages": "^2.1.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-scripts": "3.1.1"
@@ -12,7 +13,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    
+    "deploy": "gh-pages -d build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
