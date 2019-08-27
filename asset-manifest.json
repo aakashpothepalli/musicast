@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.js": "/musicast/static/js/main.eb06f674.chunk.js",
+    "main.js.map": "/musicast/static/js/main.eb06f674.chunk.js.map",
+    "runtime~main.js": "/musicast/static/js/runtime~main.32e94e76.js",
+    "runtime~main.js.map": "/musicast/static/js/runtime~main.32e94e76.js.map",
+    "static/js/2.2a0309d5.chunk.js": "/musicast/static/js/2.2a0309d5.chunk.js",
+    "static/js/2.2a0309d5.chunk.js.map": "/musicast/static/js/2.2a0309d5.chunk.js.map",
+    "index.html": "/musicast/index.html",
+    "precache-manifest.2f532d522928c9d9da8c7f429eb57bae.js": "/musicast/precache-manifest.2f532d522928c9d9da8c7f429eb57bae.js",
+    "service-worker.js": "/musicast/service-worker.js"
+  }
+}
