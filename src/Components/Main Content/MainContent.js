@@ -1,12 +1,15 @@
 import React from "react"
-
+import {Button} from "react-bootstrap"
 class MainContent extends React.Component{
-
+constructor(){
+  super()
+  document.body.style = 'background: black;'
+}
     render() {
       return (
-        <h2>
+        <Button style={{color: 'white'}}>
          hi there
-        </h2>
+        </Button>
       )
     };
     
