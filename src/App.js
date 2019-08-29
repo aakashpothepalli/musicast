@@ -11,6 +11,7 @@ const router = (
     <Route exact path="/host" component={Host}/>
     <Route exact path ="/join" component= {Join}/>
     </div>
+    
 </Router>
 )
 
