@@ -1,26 +1,34 @@
 import React from "react"
-import SocketIOClient from "socket.io-client"
+
+
+
+let Socket = require('simple-websocket') 
+let socket = {}
+
+
 class Host extends React.Component{
     
     constructor(){
         super()
         this.state={
-            data:""
+            data:""  
         }
+        socket= new Socket('wss://connect.websocket.in/aakash9518?room_id=1')
+              
+        socket.on("data",(data)=>{
+            console.log(data.toString())
+            this.setState({
+                data:data.toString()
+            })
+        })
     } 
-    componentDidMount(){ 
-      const socket = SocketIOClient("http://127.0.0.1:4001")
 
-      socket.on("recieve",data=>{
-        this.setState({data:data.toString()})
-        console.log(this.state.data)
-      })
+    componentDidMount(){
 
     }
-    
     render(){
     return(
-        <h2>host clicked {this.state.data}</h2>
+        <h2> {this.state.data}</h2>
     )
 }
 }
