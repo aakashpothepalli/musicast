@@ -37,13 +37,18 @@ class Join extends React.Component{
     
     render(){
     return(
-        <div>
+        <div >
+
+<h2> {this.state.url}</h2>
+            
         <QrReader
           delay={this.state.delay}
           onError={this.handleError}
-          onScan={this.handleScan}
+          onScan={this.handleScan} 
+        
           />
-        <h2> {this.state.url}</h2>
+        
+        
         </div>
     )
 }
