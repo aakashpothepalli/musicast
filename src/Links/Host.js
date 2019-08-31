@@ -1,5 +1,5 @@
 import React from "react"
-
+import {Button} from "react-bootstrap"
 
 
 let Socket = require('simple-websocket') 
@@ -11,24 +11,38 @@ class Host extends React.Component{
     constructor(){
         super()
         this.state={
-            data:""  
+            data:""
+            
         }
         socket= new Socket('wss://connect.websocket.in/aakash9518?room_id=1')
-              
-        socket.on("data",(data)=>{
-            console.log(data.toString())
-            this.setState({
-                data:data.toString()
-            })
-        })
+              this.handleError = this.handleError.bind(this)
+              this.handleScan = this.handleScan.bind(this)
     } 
 
-    componentDidMount(){
-
-    }
+   
+    
     render(){
     return(
-        <h2> {this.state.data}</h2>
+        <div>
+          <Button  onClick={()=>{
+
+            alert("sent")
+            let i=1
+            function f() {
+              socket.send( i );
+              i++;
+              if( i < 100 ){ 
+                  setTimeout( f, 500);
+              }
+          }
+          f()
+            
+          }}> send something</Button>
+
+
+
+          <p>{this.state.url}</p>
+        </div>
     )
 }
 }
