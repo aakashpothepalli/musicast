@@ -1,11 +1,8 @@
 import React from "react"
 import {Button} from "react-bootstrap"
-import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
+import {  Link  } from 'react-router-dom'
 
 
-let i =1
-let Socket = require('simple-websocket') 
-let socket = new Socket('wss://connect.websocket.in/aakash9518?room_id=1')
 
 class MainContent extends React.Component{
   

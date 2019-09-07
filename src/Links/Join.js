@@ -4,7 +4,7 @@ import NavHeader from "../Components/Nav Header/NavHeader"
 import QrReader from 'react-qr-scanner'
 import Firebase from "firebase"
 import ReactPlayer from "react-player"
-import { Buffer } from "buffer";
+
 
 
 let socket = null
@@ -21,10 +21,10 @@ class Join extends React.Component{
             isCamHidden:true ,
             isScanComplete:false,
             audioURL:null,
-            DownloadURL:""
+            DownloadURL:"",
+            playing:false
         }
         
-
 
         this.handleError = this.handleError.bind(this)
         this.handleScan = this.handleScan.bind(this)
@@ -43,17 +43,29 @@ class Join extends React.Component{
             isScanComplete:true
         }) 
         socket= new WebSocket("wss://connect.websocket.in/aakash9518?room_id="+data.toString())   
-
+        let firstMessage = true
         socket.onmessage = (e)=>{
-            console.log(e.data)
-            this.setState({DownloadURL:e.data.toString()})
+            let data = e.data
+            console.log(data)
+            
+            if(firstMessage){
+                this.setState({DownloadURL:data.toString(),playing:true})
             this.DownloadFile()
+                firstMessage=false
+            }
+            else{
+                let playTime = data
+                console.log(new Date().getTime())
+                let secondsleft = new Date().getTime() - playTime
+                setTimeout(()=>{this.setState({playing: true})},secondsleft*1000)
+                
+            }
         }     
         }
     }
      DownloadFile (){
          console.log(this.state.DownloadURL)
-         alert("Your song will play shortly")
+        
         storageRef.child(this.state.DownloadURL).getDownloadURL().then((url)=> {
            this.setState({
                audioURL:url
@@ -61,6 +73,9 @@ class Join extends React.Component{
           }).catch((error)=> {
            console.log(error)
           });
+    }
+    onSeek=()=>{
+
     }
     handleError(err){
          console.error(err)
@@ -78,14 +93,14 @@ class Join extends React.Component{
           onScan={this.handleScan} 
           style={{width:"100%"}}/> 
           </div>
-        <div hidden={!this.state.isScanComplete}>connected</div> 
+        <div hidden={!this.state.isScanComplete}>Connected : The music will start as soon as the host sends </div> 
         <h5>{this.state.data}</h5>
-        <Button onClick={()=>this.DownloadFile()}>Download</Button>
-        <ReactPlayer url ={this.state.audioURL} playing/>
+        <Button onClick={()=> this.setState({playing:true})}>Play</Button>
+        <ReactPlayer url ={this.state.audioURL} width="100%" height = "100%" playing={this.state.playing}/>
         
         </div>
     )
-}
+    }
 }
 
 export default Join
