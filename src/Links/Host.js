@@ -11,15 +11,17 @@ class Host extends React.Component{
     
     constructor(){
         super()
+        const roomId = Math.random().toString(36).slice(2)
         this.state={
             data:"hi there",
             qrImgComponent:null,
             selectedFile:null,
-            UploadedText:""
+            UploadedText:"",
+            roomID:roomId.toString()
             
         }
          /////// creating new sockectroom
-       const roomId = Math.random().toString(36).slice(2)
+       
        url = "wss://connect.websocket.in/aakash9518?room_id="+ roomId.toString() 
        //+ roomId.toString()
        console.log(url)
@@ -33,39 +35,25 @@ class Host extends React.Component{
         ///// qr code reader
         const qrcode = require("qrcode-generator")
         let qr = qrcode(0,'L')
-        qr.addData(url)
+        qr.addData(this.state.roomID)
         qr.make()
         this.setState({
             qrImgComponent:qr.createImgTag(10,2)
         })
         ////////
-        socket.onmessage = (dataevent)=>{
-            console.log(dataevent)
-        }
+        
         
 
     }
 
-   
-    handleSendSomething= ()=>{
-        console.log("works")
-                let i=1
-                const date = new Date().getSeconds()
-                function f() {
-                socket.send( new Date().getSeconds()- date);
-                i++;
-                if( i < 600 ){ 
-                    setTimeout( f, 500);
-                }
-                }
-                f()
-    }
+
     handleUploadFile = event=>{
        this.setState({ selectedFile: event.target.files[0]})
        console.log(event.target.files[0])
     }
 
     handleSendFile= ()=>{
+        this.setState({UploadedText:"Sending"})
     let storage = Firebase.storage().ref().child(this.state.selectedFile.name)
     storage.put(this.state.selectedFile).then(e=>{
             
@@ -74,7 +62,7 @@ class Host extends React.Component{
         this.setState({UploadedText:"Sent"})
         //TODO: implement uploading bar
         })    
-            }
+        }
 
     
     
@@ -82,9 +70,10 @@ class Host extends React.Component{
     render(){
     return(
         <div>
-            <Button  onClick={this.handleSendSomething}> send something</Button>
+          
+            <h3>Room id: {this.state.roomID}</h3>
             <JsxParser jsx={this.state.qrImgComponent}/>
-            <input type="file" name="file" onChange={this.handleUploadFile}/>
+            <input type="file" accept="audio/mp3" name="file" onChange={this.handleUploadFile}/>
             <Button onClick={this.handleSendFile}>SendFile</Button>
             <h5>{this.state.UploadedText}</h5>
             

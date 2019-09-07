@@ -6,8 +6,8 @@ import Firebase from "firebase"
 import ReactPlayer from "react-player"
 import { Buffer } from "buffer";
 
-let Socket = require('simple-websocket') 
-let socket = {}
+
+let socket = null
 let storageRef = Firebase.storage().ref()
 
 class Join extends React.Component{
@@ -16,7 +16,8 @@ class Join extends React.Component{
         super()
         this.state={
             data:"",
-            url:"" ,
+            ScanURL:"" ,
+            RoomID:"",
             isCamHidden:true ,
             isScanComplete:false,
             audioURL:null,
@@ -31,26 +32,24 @@ class Join extends React.Component{
 
     } 
    
-    componentDidMount(){
-        socket= new WebSocket("wss://connect.websocket.in/aakash9518?room_id=1" )
+   componentDidMount(){
+   
+   }
+    handleScan(data){
+        if(data!==null&& this.state.isScanComplete===false){
+        console.log(data)
+        this.setState({
+            RoomID:data.toString(),
+            isScanComplete:true
+        }) 
+        socket= new WebSocket("wss://connect.websocket.in/aakash9518?room_id="+data.toString())   
+
         socket.onmessage = (e)=>{
             console.log(e.data)
             this.setState({DownloadURL:e.data.toString()})
             this.DownloadFile()
         }     
-    
-    }
-    handleScan(data){
-        if(data!==null&& this.state.isScanComplete===false){
-        console.log(data)
-        this.setState({
-            url:data,
-            isScanComplete:true
-        })
-        socket= new Socket(this.state.url)
-               
-        
-    }
+        }
     }
      DownloadFile (){
          console.log(this.state.DownloadURL)
@@ -70,7 +69,8 @@ class Join extends React.Component{
     render(){
     return(
         <div>
-        <NavHeader/>        
+        <NavHeader/>
+        <h3 hidden = {!this.state.isScanComplete}>Room ID : {this.state.RoomID}</h3>        
         <div style={{width: "70%",height:"70%",textAlign:"center"}} hidden={this.state.isScanComplete}>
         <QrReader
           delay={this.state.delay}
@@ -80,7 +80,7 @@ class Join extends React.Component{
           </div>
         <div hidden={!this.state.isScanComplete}>connected</div> 
         <h5>{this.state.data}</h5>
-        
+        <Button onClick={()=>this.DownloadFile()}>Download</Button>
         <ReactPlayer url ={this.state.audioURL} playing/>
         
         </div>
