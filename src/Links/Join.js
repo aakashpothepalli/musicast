@@ -9,9 +9,9 @@ import ReactPlayer from "react-player"
 
 let socket = null
 let storageRef = Firebase.storage().ref()
-
+const name = Math.random().toString(18).slice(2)
 class Join extends React.Component{
-    
+
     constructor(){
         super()
         this.state={
@@ -21,7 +21,7 @@ class Join extends React.Component{
             isCamHidden:true ,
             isScanComplete:false,
             audioURL:null,
-            DownloadURL:"",
+            DownloadURL:null,
             playing:false
         }
         
@@ -43,25 +43,26 @@ class Join extends React.Component{
             isScanComplete:true
         }) 
         socket= new WebSocket("wss://connect.websocket.in/aakash9518?room_id="+data.toString())   
-        let firstMessage = true
+        setTimeout(()=>{
+            console.log("i am active")
+            socket.send(name)
+    },1500) //waiting time to get connected to websocket server
         socket.onmessage = (e)=>{
+             
             let data = e.data
             console.log(data)
-            
-            if(firstMessage){
-                this.setState({DownloadURL:data.toString(),playing:true})
+          if(data==="play"){ 
+            this.setState({playing:true})
+          }
+          else{
+            this.setState({DownloadURL:data.toString()})
             this.DownloadFile()
-                firstMessage=false
+          }
             }
-            else{
-                let playTime = data
-                console.log(new Date().getTime())
-                let secondsleft = new Date().getTime() - playTime
-                setTimeout(()=>{this.setState({playing: true})},secondsleft*1000)
-                
-            }
+        
+          
         }     
-        }
+        
     }
      DownloadFile (){
          console.log(this.state.DownloadURL)
@@ -74,7 +75,9 @@ class Join extends React.Component{
            console.log(error)
           });
     }
-    onSeek=()=>{
+    onReady=()=>{
+        console.log("i am ready to be played")
+        
 
     }
     handleError(err){
@@ -85,6 +88,7 @@ class Join extends React.Component{
     return(
         <div>
         <NavHeader/>
+        <h3>Name:{name}</h3>
         <h3 hidden = {!this.state.isScanComplete}>Room ID : {this.state.RoomID}</h3>        
         <div style={{width: "70%",height:"70%",textAlign:"center"}} hidden={this.state.isScanComplete}>
         <QrReader
@@ -93,10 +97,11 @@ class Join extends React.Component{
           onScan={this.handleScan} 
           style={{width:"100%"}}/> 
           </div>
-        <div hidden={!this.state.isScanComplete}>Connected : The music will start as soon as the host sends </div> 
+        <div hidden={!this.state.isScanComplete}>Connected : The music will start as soon as the host starts </div> 
         <h5>{this.state.data}</h5>
-        <Button onClick={()=> this.setState({playing:true})}>Play</Button>
-        <ReactPlayer url ={this.state.audioURL} width="100%" height = "100%" playing={this.state.playing}/>
+        
+        <ReactPlayer onReady={this.onReady} url ={this.state.audioURL} width="100%" height = "100%" playing={this.state.playing}/>
+      
         
         </div>
     )

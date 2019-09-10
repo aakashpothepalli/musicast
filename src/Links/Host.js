@@ -1,5 +1,5 @@
 import React from "react"
-import {Button} from "react-bootstrap"
+import {Button,ListGroup,ListGroupItem,ProgressBar} from "react-bootstrap"
 import JsxParser from "react-jsx-parser"
 import Firebase from "../firebase"
 let socket = null
@@ -16,7 +16,8 @@ class Host extends React.Component{
             UploadedText:"",
             roomID:roomId.toString(),
             isUploadComplete:false,
-            UploadProgress:""
+            UploadProgress:"",
+            clientIdList:[]
             
         }
          /////// creating new sockect room
@@ -40,19 +41,21 @@ class Host extends React.Component{
             qrImgComponent:qr.createImgTag(10,2)
         })
         ////////
-        
+        socket.onmessage= e=>{
+
+            let data = e.data.toString()
+            console.log(data)
+            let clientIdList1 = this.state.clientIdList
+
+            clientIdList1.push(data)
+            console.log(clientIdList1)
+            this.setState({
+                clientIdList:clientIdList1
+            })
+        }
         
 
     }
-
-
-    // handleUploadFile = event=>{
-    //     if(event.target.files[0]===null)
-    //     alert("select a mp3 file")
-    //     else{
-    //    this.setState({ selectedFile: event.target.files[0]})
-    //    console.log(event.target.files[0])
-    // }
 
     upload= (event)=>{
         if(event.target.files===undefined){
@@ -68,28 +71,44 @@ class Host extends React.Component{
             var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             this.setState({UploadProgress:progress})
             console.log('Upload is ' + progress + '% done');
-            if(progress==100)
-            this.setState({isUploadComplete:true,UploadedText:"Uploaded , Now click on start",UploadProgress:""})
-            })
+            if(progress===100)
+            setTimeout(()=>{
+                this.setState({
+                    isUploadComplete:true,UploadedText:"Uploaded , Now click on start",
+                    UploadProgress:""})
+                }
+                    ,3000)
+            socket.send(this.state.selectedFile.name)    
+        })
         
         }
     }
 
     start = ()=> {
-        socket.send(this.state.selectedFile.name)
-        setTimeout(this.setState({UploadedText:"Sent"}),2000)
+        socket.send("play")
+        this.setState({UploadedText:"Starting"})
+        setTimeout(this.setState({UploadedText:"Started"}),2000)
     }
     render() {
     return(
         <div>
-          
-            <h3>Room id: {this.state.roomID}</h3>
-            <JsxParser jsx={this.state.qrImgComponent}/>
+            <h3>Room id: {this.state.roomID}<br/><br/></h3>
+        <div style={{marginLeft:"40%"}}>
+            <JsxParser jsx={this.state.qrImgComponent} />
+          </div>  <br/><br/>
             <input type="file" accept="audio/mp3" name="file" onChange={this.upload}/>
-            <Button hidden = {this.state.isUploadComplete} onClick={this.upload}>Upload file</Button>
-            <Button hidden = {!this.state.isUploadComplete} onClick={this.start}>Start</Button>
-            <h5>{this.state.UploadedText} {this.state.UploadProgress}</h5>
             
+            
+            <Button hidden = {!this.state.isUploadComplete} onClick={this.start}>Start</Button>
+            
+            <h5>{this.state.UploadedText} </h5>
+            <ProgressBar now ={this.state.UploadProgress}/>
+            <ListGroup>
+                <ListGroupItem><h4>Connected clients</h4></ListGroupItem>
+                
+            </ListGroup>
+
+            {this.state.clientIdList.map(element=><ListGroupItem key = {element}> {element}</ListGroupItem>)}
         </div>
     )
     }
