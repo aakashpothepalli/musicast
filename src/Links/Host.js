@@ -95,7 +95,8 @@ class Host extends React.Component{
             <h3>Room id: {this.state.roomID}<br/><br/></h3>
         <div style={{marginLeft:"40%"}}>
             <JsxParser jsx={this.state.qrImgComponent} />
-          </div>  <br/><br/>
+          </div>  <br/>  <br/>
+          
             <input type="file" accept="audio/mp3" name="file" onChange={this.upload}/>
             
             
