@@ -1,29 +1,18 @@
 import React from "react"
-import {Button} from "react-bootstrap"
 import {  Link  } from 'react-router-dom'
-
+import "./MainContent.css"
 
 
 class MainContent extends React.Component{
   
     render() {
       return  (
-        <div style={{textAlign:'center',paddingTop:'200px'}}>
+        <div className="mc m-auto row">
         
-        <div style={{margin: '10px'}}>
-        <Link to ="/host">
-          <Button><h5> HOST</h5></Button>
-        </Link>
-        </div>
+          <button type="button" className="host btn col-6  " onClick={()=>window.open("/host","_self")}> HOST</button>
         
-        <div>
-          <Link to ="/join">
-            <Button style={{margin:'30sp'}}><h5>JOIN</h5></Button>
-          </Link>
-        
-        </div>
+            <button type="button" className="join btn col-6 " onClick={()=>window.open("/join","_self")}> JOIN </button>
 
-       
 
         </div>
       )

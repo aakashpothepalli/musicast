@@ -1,10 +1,12 @@
 import React from "react"
-
+import "./NavHeader.css"
 class NavHeader extends React.Component{
 
     render() {
       return (
-        <h2 style={{textAlign:'center'}}>Musicast</h2>
+        <div className="navbar">
+          <div className="navbar-brand  "> Musicast </div>
+        </div>
       )
     };
     

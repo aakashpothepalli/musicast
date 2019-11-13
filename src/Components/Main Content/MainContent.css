@@ -1,0 +1,12 @@
+.host{
+   color: black !important;
+    height: 720px;
+
+}
+.join{
+    border-image: linear-gradient(to right, #DA4453,#89216B);
+    color: black !important;
+    height: 720px;
+}
+.mc{
+}

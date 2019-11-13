@@ -5,7 +5,7 @@ import NavHeader from "../Components/Nav Header/NavHeader"
 function Home()
 {
     return(
-        <div>
+        <div style={{width:"100%",height:"100%"}}>
         <NavHeader/>
         <MainContent/>
         </div>
