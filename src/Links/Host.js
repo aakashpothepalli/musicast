@@ -2,6 +2,7 @@ import React from "react"
 import {Button,ListGroup,ListGroupItem,ProgressBar} from "react-bootstrap"
 import JsxParser from "react-jsx-parser"
 import Firebase from "../firebase"
+import NavHeader from "../Components/Nav Header/NavHeader"
 let socket = null
 let url=""
 class Host extends React.Component{
@@ -92,6 +93,7 @@ class Host extends React.Component{
     render() {
     return(
         <div>
+            <NavHeader />
             <h3>Room id: {this.state.roomID}<br/><br/></h3>
         <div style={{marginLeft:"40%"}}>
             <JsxParser jsx={this.state.qrImgComponent} />

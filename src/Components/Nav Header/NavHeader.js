@@ -4,8 +4,8 @@ class NavHeader extends React.Component{
 
     render() {
       return (
-        <div className="navbar">
-          <div className="navbar-brand  "> Musicast </div>
+        <div className="navbar mb-4 ">
+          <div className="navbar-brand mr-auto "> Musicast </div>
         </div>
       )
     };

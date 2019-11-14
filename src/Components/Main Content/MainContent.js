@@ -1,5 +1,4 @@
 import React from "react"
-import {  Link  } from 'react-router-dom'
 import "./MainContent.css"
 
 
@@ -7,14 +6,20 @@ class MainContent extends React.Component{
   
     render() {
       return  (
-        <div className="mc m-auto row">
-        
-          <button type="button" className="host btn col-6  " onClick={()=>window.open("/host","_self")}> HOST</button>
-        
-            <button type="button" className="join btn col-6 " onClick={()=>window.open("/join","_self")}> JOIN </button>
+        <div className="row text-center h-100 align-items-center ">
 
+          <div className=" mb-5  col-sm-6 align-self-center ">
+            <h3>Click here to host the song</h3>
+            <button type="button" className="host btn btn-primary col-6  " onClick={()=>window.open("/host","_self")}> HOST </button>
+          </div>
 
-        </div>
+          <div className="col-sm-6 mb-5"  >       
+            <h3>Click here to join a group</h3>     
+            <button type="button" className="join btn btn-primary col-6 " onClick={()=>window.open("/join","_self")}> JOIN </button>
+          </div>
+
+        </div>    
+
       )
     };
     
